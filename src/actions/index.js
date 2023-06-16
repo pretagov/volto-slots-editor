@@ -1,0 +1,21 @@
+/**
+ * Dropdown menu items actions.
+ * @module actions/getDropdownMenuNavitems
+ */
+import { GET_ADDON_FOOTER } from '@plone-collective/volto-blocks-footer';
+
+/**
+ * Get dropdown menu items.
+ * @function getDropdownMenuNavitems
+ * @returns {Object} Get dropdown menu items action.
+ * Es: http://localhost:8080/Plone/@dropdown-menu
+ */
+export function getAddonFooter() {
+  return {
+    type: GET_ADDON_FOOTER,
+    request: {
+      op: 'get',
+      path: `/@preta_gov_settings`,
+    },
+  };
+}

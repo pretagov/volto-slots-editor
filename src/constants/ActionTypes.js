@@ -1,0 +1,1 @@
+export const GET_ADDON_FOOTER = 'GET_ADDON_FOOTER';
