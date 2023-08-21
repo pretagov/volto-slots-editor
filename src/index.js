@@ -1,12 +1,14 @@
-import menuSVG from '@plone/volto/icons/menu.svg';
-import { getAddonFooter } from './actions';
-// import { dropdownMenuNavItemsReducer } from './reducers';
-// import { getItemsByPath } from './utils';
-// import MenuConfigurationForm from './widget/MenuConfigurationForm';
-import { ControlPanelWidget } from '@plone-collective/volto-blocks-footer/components';
+import { getVoltoBlocksFooter } from '@plone-collective/volto-blocks-footer/actions';
+import { voltoBlocksFooterReducer } from '@plone-collective/volto-blocks-footer/reducers';
+
+import {
+  ControlPanelWidget,
+  FooterDisplay,
+} from '@plone-collective/volto-blocks-footer/components';
 
 export { GET_ADDON_FOOTER } from '@plone-collective/volto-blocks-footer/constants';
-export { getAddonFooter };
+export { useVoltoBlocksFooter } from '@plone-collective/volto-blocks-footer/hooks';
+export { getVoltoBlocksFooter };
 
 export default (config) => {
   config.widgets.id = {
@@ -14,15 +16,15 @@ export default (config) => {
     volto_blocks_footer_controlpanel_data: ControlPanelWidget,
   };
 
-  // config.registerComponent({
-  //   name: 'MenuConfigurationForm',
-  //   component: MenuConfigurationForm,
-  // });
+  config.registerComponent({
+    name: 'VoltoBlocksFooterDisplay',
+    component: FooterDisplay,
+  });
 
-  // config.addonReducers = {
-  //   ...config.addonReducers,
-  //   voltoBlocksFooter: dropdownMenuNavItemsReducer,
-  // };
+  config.addonReducers = {
+    ...config.addonReducers,
+    voltoBlocksFooter: voltoBlocksFooterReducer,
+  };
 
   // config.settings.asyncPropsExtenders = [
   //   ...(config.settings.asyncPropsExtenders ?? []),
@@ -44,8 +46,6 @@ export default (config) => {
   //     },
   //   },
   // ];
-
-  // config.settings.controlPanelsIcons['dropdown-menu-settings'] = menuSVG;
 
   config.settings['volto-blocks-footer'] = {
     options: {},

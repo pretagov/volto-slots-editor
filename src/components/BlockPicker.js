@@ -53,7 +53,6 @@ export function BlockPicker({ onChange, value }) {
   const defaultBlockId = uuid();
   const [blocksData, setBlocksData] = useState(value);
 
-  console.log('blocksData', blocksData);
   // const [blocksData, setBlocksData] = useState({
   //   blocks: {
   //     [defaultBlockId]: {
@@ -86,7 +85,12 @@ export function BlockPicker({ onChange, value }) {
             <Grid.Row stretched>
               <Grid.Column width={12}>
                 <div className="menu-blocks-container">
-                  <Form formData={blocksData} visual={true} hideActions onChangeFormData={onChangeFormBlocks} />
+                  <Form
+                    formData={blocksData}
+                    visual={true}
+                    hideActions
+                    onChangeFormData={onChangeFormBlocks}
+                  />
                 </div>
               </Grid.Column>
             </Grid.Row>

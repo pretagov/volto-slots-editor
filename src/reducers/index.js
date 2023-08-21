@@ -12,7 +12,7 @@ const initialState = {
   loadingResults: false,
 };
 
-export const dropdownMenuNavItemsReducer = (state = initialState, action = {}) => {
+export const voltoBlocksFooterReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case `${GET_ADDON_FOOTER}_PENDING`:
       return {

@@ -10,7 +10,7 @@ import { GET_ADDON_FOOTER } from '@plone-collective/volto-blocks-footer';
  * @returns {Object} Get dropdown menu items action.
  * Es: http://localhost:8080/Plone/@dropdown-menu
  */
-export function getAddonFooter() {
+export function getVoltoBlocksFooter() {
   return {
     type: GET_ADDON_FOOTER,
     request: {
