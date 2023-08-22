@@ -15,7 +15,7 @@ export function getVoltoBlocksFooter() {
     type: GET_ADDON_FOOTER,
     request: {
       op: 'get',
-      path: `/@preta_gov_settings`,
+      path: `/@blocksfooter_settings`,
     },
   };
 }
