@@ -6,6 +6,7 @@ import { getVoltoBlocksFooter } from '@plone-collective/volto-blocks-footer';
 export function useVoltoBlocksFooter() {
   const dispatch = useDispatch();
 
+  // TODO: Don't need client side re-fetch
   useEffect(() => {
     dispatch(getVoltoBlocksFooter());
   }, [dispatch]);
