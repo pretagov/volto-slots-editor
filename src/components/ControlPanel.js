@@ -75,7 +75,7 @@ const leccData = {
                 captionBackgroundColour: 'grey',
                 sectionType: '',
                 size: 'fullWidth',
-                url: 'http://localhost:3000/columns/aoc.png',
+                url: 'http://localhost:3000/aoc.png',
               },
             },
             blocks_layout: {
@@ -145,6 +145,7 @@ const leccData = {
       gridCols: ['oneThird', 'twoThirds'],
       gridSize: 12,
       sectionType: 'colour-brand-dark',
+      sectionspacing: 'no',
     },
   },
   blocks_layout: {
