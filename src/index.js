@@ -26,26 +26,26 @@ export default (config) => {
     voltoBlocksFooter: voltoBlocksFooterReducer,
   };
 
-  // config.settings.asyncPropsExtenders = [
-  //   ...(config.settings.asyncPropsExtenders ?? []),
-  //   {
-  //     path: '/',
-  //     extend: (dispatchActions) => {
-  //       if (
-  //         dispatchActions.filter(
-  //           (asyncAction) => asyncAction.key === 'dropdownMenuNavItems'
-  //         ).length === 0
-  //       ) {
-  //         dispatchActions.push({
-  //           key: 'dropdownMenuNavItems',
-  //           promise: ({ location, store: { dispatch } }) =>
-  //             __SERVER__ && dispatch(getDropdownMenuNavitems()),
-  //         });
-  //       }
-  //       return dispatchActions;
-  //     },
-  //   },
-  // ];
+  config.settings.asyncPropsExtenders = [
+    ...(config.settings.asyncPropsExtenders ?? []),
+    {
+      path: '/',
+      extend: (dispatchActions) => {
+        if (
+          dispatchActions.filter(
+            (asyncAction) => asyncAction.key === 'voltoBlocksFooter',
+          ).length === 0
+        ) {
+          dispatchActions.push({
+            key: 'voltoBlocksFooter',
+            promise: ({ location, store: { dispatch } }) =>
+              __SERVER__ && dispatch(getVoltoBlocksFooter()),
+          });
+        }
+        return dispatchActions;
+      },
+    },
+  ];
 
   config.settings['volto-blocks-footer'] = {
     options: {},
