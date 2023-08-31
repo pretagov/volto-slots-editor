@@ -15,6 +15,7 @@ import {
 } from 'semantic-ui-react';
 
 import { BlockPicker } from '@plone-collective/volto-blocks-footer/components';
+import { useMemo } from 'react';
 
 // import './menu_configuration.css';
 
@@ -162,48 +163,25 @@ export function ControlPanelWidget({
   description,
   ...rest
 }) {
-  function handleChangeConfiguration(value) {
-    setMenuConfiguration(value);
-    // debugger;
-    onChange(id, JSON.parse(leccData));
-  }
-
-  function addSection(e) {
-    e.preventDefault();
-    const menuItemsNumber = menuConfiguration.length;
-    const menuItem = `/tab${menuItemsNumber}`;
-    // debugger;
-    let newMenuConfiguration = [
-      ...menuConfiguration,
-      {
-        ...defaultRootMenu(`Tab ${menuItemsNumber}`),
-      },
-    ];
-
-    handleChangeConfiguration(newMenuConfiguration);
-    setActiveMenu(newMenuConfiguration.length - 1);
-  }
-
-  console.log(value);
-
   const intl = useIntl();
-  const [menuConfiguration, setMenuConfiguration] = useState(
-    value
-      ? typeof value === 'string'
-        ? JSON.parse(value)
-        : value
-      : defaultMenuConfiguration,
-  );
-  const [activeMenu, setActiveMenu] = useState(0);
-  const [selectedSection, setSelectedSection] = useState(0);
   const dispatch = useDispatch();
+  function handleChangeConfiguration(newValue) {
+    // debugger;
+    // onChange(id, JSON.parse(leccData));
+  }
+
+  function onBlocksChange(newValue) {
+    onChange(id, JSON.stringify(newValue));
+  }
+
+  const decodedValue = useMemo(() => {
+    console.log('re-memo');
+    return typeof value === 'object' ? value : JSON.parse(value);
+  }, [value]);
 
   useEffect(() => {
     dispatch(getVoltoBlocksFooter());
   }, [dispatch]);
-  useEffect(() => {
-    onChange(id, JSON.stringify(leccData));
-  }, []);
 
   return (
     <div className="menu-configuration-widget">
@@ -218,32 +196,18 @@ export function ControlPanelWidget({
             <Grid.Column width="12" className="menu-configuration-widget">
               <div id="menu-configuration">
                 <Menu pointing secondary className="menu-path-menu">
-                  {/* {menuConfiguration.map((menu, idx) => {
-                    const visibleIndex = idx + 1;
-                    return (
-                      <Menu.Item
-                        key={`section-${visibleIndex}`}
-                        name={`section-${visibleIndex}`}
-                        active={activeMenu === idx}
-                        onClick={() => {
-                          setActiveMenu(idx);
-                          setSelectedSection(0);
-                        }}
-                      >
-                        <span>Section {visibleIndex}</span>
-                      </Menu.Item>
-                    ); */}
-                  })}
                   <Menu.Item
                     active={false}
                     name={intl.formatMessage(messages.addSection)}
-                    onClick={addSection}
+                    onClick={() => {
+                      console.log('Added section');
+                    }}
                   >
                     <Icon name="plus" />
                   </Menu.Item>
                 </Menu>
                 <Segment>
-                  <BlockPicker onChange={onChange} value={value} />
+                  <BlockPicker onChange={onBlocksChange} value={decodedValue} />
                 </Segment>
               </div>
             </Grid.Column>

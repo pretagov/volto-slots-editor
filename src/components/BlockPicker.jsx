@@ -1,12 +1,18 @@
+import { getVoltoBlocksFooter } from '@plone-collective/volto-blocks-footer';
+import {
+  getBlocksFieldname,
+  getBlocksLayoutFieldname,
+} from '@plone/volto/helpers';
+import { isEmpty } from 'lodash';
 import { useState } from 'react';
-import { v4 as uuid } from 'uuid';
 import { defineMessages, useIntl } from 'react-intl';
-import { blockHasValue } from '@plone/volto/helpers';
+import { v4 as uuid } from 'uuid';
 
-import { Form as UIForm, Grid, Button } from 'semantic-ui-react';
-import { Form } from '@plone/volto/components';
-
+import { Form, Sidebar } from '@plone/volto/components';
 import config from '@plone/volto/registry';
+import { Portal } from 'react-portal';
+import { useDispatch } from 'react-redux';
+import { Grid, Form as UIForm } from 'semantic-ui-react';
 
 const messages = defineMessages({
   deleteMenuPath: {
@@ -39,64 +45,85 @@ const messages = defineMessages({
   },
 });
 
-export function BlockPicker({ onChange, value }) {
-  function onChangeFormBlocks(data) {
-    debugger;
-    onChange({
-      ...blocksData,
-      blocks: data.blocks,
-      blocks_layout: data.blocks_layout,
-    });
-    // debugger;
+function getInitialBlocksData(value) {
+  // Hacky way of checking for falsey value. Empty array and empty object typecast to true.
+  if (Object.keys(value).length > 0) {
+    return value;
   }
-  const intl = useIntl();
-  const defaultBlockId = uuid();
-  const [blocksData, setBlocksData] = useState(value);
 
-  // const [blocksData, setBlocksData] = useState({
-  //   blocks: {
-  //     [defaultBlockId]: {
-  //       '@type': config.settings.defaultBlockType,
-  //     },
-  //   },
-  //   blocks_layout: {
-  //     items: [defaultBlockId],
-  //   },
-  // });
-  // if (!menuItem.blocks_layout || isEmpty(menuItem.blocks_layout.items)) {
-  //   menuItem.;
-  // }
-  // if (!menuItem.blocks || isEmpty(menuItem.blocks)) {
-  //   menuItem.
-  // }
+  const blocksFieldname = getBlocksFieldname({}) ?? 'blocks';
+  const blocksLayoutFieldname = getBlocksLayoutFieldname({}) ?? 'blocks_layout';
+
+  // debugger;
+  const defaultID = uuid();
+
+  if (
+    !value[blocksLayoutFieldname] ||
+    isEmpty(value[blocksLayoutFieldname].items)
+  ) {
+    value[blocksLayoutFieldname] = {
+      items: [defaultID],
+    };
+  }
+  if (!value[blocksFieldname] || isEmpty(value[blocksFieldname])) {
+    value[blocksFieldname] = {
+      [defaultID]: {
+        '@type': config.settings.defaultBlockType,
+      },
+    };
+  }
+
+  return value;
+}
+
+export function BlockPicker({ onChange, value }) {
+  const intl = useIntl();
+  const dispatch = useDispatch();
+  function onChangeFormBlocks(newData) {
+    const newValue = {
+      ...value,
+      blocks: newData.blocks,
+      blocks_layout: newData.blocks_layout,
+    };
+
+    setBlocksData(newValue);
+    onChange(newValue);
+    dispatch(getVoltoBlocksFooter());
+  }
+  const [blocksData, setBlocksData] = useState(getInitialBlocksData(value));
 
   return (
-    <Grid>
-      <Grid.Column>
-        <UIForm.Field inline className="help wide" id="menu-blocks">
-          <Grid>
-            <Grid.Row stretched>
-              <Grid.Column width={12}>
-                <div className="wrapper">
-                  <p className="help">Add a block</p>
-                </div>
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row stretched>
-              <Grid.Column width={12}>
-                <div className="menu-blocks-container">
-                  <Form
-                    formData={blocksData}
-                    visual={true}
-                    hideActions
-                    onChangeFormData={onChangeFormBlocks}
-                  />
-                </div>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </UIForm.Field>
-      </Grid.Column>
-    </Grid>
+    <>
+      <Grid>
+        <Grid.Column>
+          <UIForm.Field inline className="help wide" id="menu-blocks">
+            <Grid>
+              <Grid.Row stretched>
+                <Grid.Column width={12}>
+                  <div className="wrapper">
+                    <p className="help">Add a block</p>
+                  </div>
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row stretched>
+                <Grid.Column width={12}>
+                  <div className="menu-blocks-container">
+                    <Form
+                      formData={blocksData}
+                      visual={true}
+                      hideActions
+                      onChangeFormData={onChangeFormBlocks}
+                    />
+                  </div>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </UIForm.Field>
+        </Grid.Column>
+      </Grid>
+      <Portal node={document.getElementById('sidebar')}>
+        <Sidebar />
+      </Portal>
+    </>
   );
 }
