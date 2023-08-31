@@ -75,7 +75,7 @@ const leccData = {
                 captionBackgroundColour: 'grey',
                 sectionType: '',
                 size: 'fullWidth',
-                url: 'http://localhost:3000/aoc.png',
+                url: '/aoc.png',
               },
             },
             blocks_layout: {
