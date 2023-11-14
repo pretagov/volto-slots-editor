@@ -48,7 +48,12 @@ export default (config) => {
   ];
 
   config.settings['volto-blocks-footer'] = {
-    options: {},
+    slots: {
+      // e.g.
+      // footer: {
+      //   title: 'Footer',
+      // },
+    },
   };
 
   return config;
