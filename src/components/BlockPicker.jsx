@@ -100,13 +100,6 @@ export function BlockPicker({ onChange, value }) {
             <Grid>
               <Grid.Row stretched>
                 <Grid.Column width={12}>
-                  <div className="wrapper">
-                    <p className="help">Add a block</p>
-                  </div>
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row stretched>
-                <Grid.Column width={12}>
                   <div className="menu-blocks-container">
                     <Form
                       formData={blocksData}
