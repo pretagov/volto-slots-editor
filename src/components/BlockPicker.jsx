@@ -1,4 +1,3 @@
-import { getVoltoBlocksFooter } from '@plone-collective/volto-blocks-footer';
 import {
   getBlocksFieldname,
   getBlocksLayoutFieldname,
@@ -8,10 +7,10 @@ import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { v4 as uuid } from 'uuid';
 
-import { Form, Sidebar } from '@plone/volto/components';
+import { BlocksForm, Sidebar } from '@plone/volto/components';
 import config from '@plone/volto/registry';
+import { useMemo } from 'react';
 import { Portal } from 'react-portal';
-import { useDispatch } from 'react-redux';
 import { Grid, Form as UIForm } from 'semantic-ui-react';
 
 const messages = defineMessages({
@@ -54,7 +53,6 @@ function getInitialBlocksData(value) {
   const blocksFieldname = getBlocksFieldname({}) ?? 'blocks';
   const blocksLayoutFieldname = getBlocksLayoutFieldname({}) ?? 'blocks_layout';
 
-  // debugger;
   const defaultID = uuid();
 
   if (
@@ -76,21 +74,25 @@ function getInitialBlocksData(value) {
   return value;
 }
 
-export function BlockPicker({ onChange, value }) {
-  const intl = useIntl();
-  const dispatch = useDispatch();
+export function BlockPicker({ onChange, value, slotId }) {
   function onChangeFormBlocks(newData) {
     const newValue = {
       ...value,
-      blocks: newData.blocks,
-      blocks_layout: newData.blocks_layout,
+      [slotId]: {
+        blocks: newData.blocks,
+        blocks_layout: newData.blocks_layout,
+      },
     };
 
-    setBlocksData(newValue);
     onChange(newValue);
-    dispatch(getVoltoBlocksFooter());
   }
-  const [blocksData, setBlocksData] = useState(getInitialBlocksData(value));
+  const blocksData = useMemo(() => {
+    return getInitialBlocksData(value[slotId]);
+  }, [value, slotId]);
+
+  const [selectedBlock, setSelectedBlock] = useState(
+    blocksData.block_layout?.items?.[0],
+  );
 
   return (
     <>
@@ -101,11 +103,24 @@ export function BlockPicker({ onChange, value }) {
               <Grid.Row stretched>
                 <Grid.Column width={12}>
                   <div className="menu-blocks-container">
-                    <Form
-                      formData={blocksData}
-                      visual={true}
-                      hideActions
-                      onChangeFormData={onChangeFormBlocks}
+                    <BlocksForm
+                      // metadata={metadata}
+                      properties={blocksData}
+                      // direction={direction}
+                      // manage={manage}
+                      selectedBlock={selectedBlock}
+                      blocksConfig={config.blocksConfig}
+                      // allowedBs
+                      title={'Blocks form nested'}
+                      // stopPropagation={selectedBlock}
+                      // disableAddBlockOnEnterKey
+                      onSelectBlock={(id) => {
+                        setSelectedBlock(id);
+                      }}
+                      onChangeFormData={(newFormData) => {
+                        onChangeFormBlocks(newFormData);
+                      }}
+                      isMainForm={false}
                     />
                   </div>
                 </Grid.Column>
