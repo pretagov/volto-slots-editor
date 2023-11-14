@@ -1,6 +1,7 @@
 import { getVoltoBlocksFooter } from '@plone-collective/volto-blocks-footer';
 import { Component, TextWidget } from '@plone/volto/components';
 import { flattenToAppURL } from '@plone/volto/helpers/Url/Url';
+import config from '@plone/volto/registry';
 import { useEffect, useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -165,6 +166,7 @@ export function ControlPanelWidget({
 }) {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const [activeSlot, setActiveSlot] = useState(0);
   function handleChangeConfiguration(newValue) {
     // debugger;
     // onChange(id, JSON.parse(leccData));
@@ -183,19 +185,32 @@ export function ControlPanelWidget({
     dispatch(getVoltoBlocksFooter());
   }, [dispatch]);
 
+  const slots = config.settings['volto-blocks-footer'].slots ?? {};
+
   return (
     <div className="menu-configuration-widget">
       <Form.Field inline id={id}>
         <Grid>
           <Grid.Row>
-            <Grid.Column width="12">
-              <div className="wrapper">
-                <label htmlFor="menu-configuration">{title}</label>
-              </div>
-            </Grid.Column>
             <Grid.Column width="12" className="menu-configuration-widget">
               <div id="menu-configuration">
                 <Menu pointing secondary className="menu-path-menu">
+                  {Object.entries(slots).map(([slotId, { title }], idx) => {
+                    // debugger;
+                    return (
+                      <Menu.Item
+                        key={`menu-path-${idx}`}
+                        name={title}
+                        active={activeSlot === idx}
+                        onClick={() => {
+                          setActiveSlot(idx);
+                          // setActiveMenuItem(0);
+                        }}
+                      >
+                        <span>{title}</span>
+                      </Menu.Item>
+                    );
+                  })}
                   <Menu.Item
                     active={false}
                     name={intl.formatMessage(messages.addSection)}
@@ -206,7 +221,7 @@ export function ControlPanelWidget({
                     <Icon name="plus" />
                   </Menu.Item>
                 </Menu>
-                <Segment>
+                <Segment attached="top">
                   <BlockPicker onChange={onBlocksChange} value={decodedValue} />
                 </Segment>
               </div>
