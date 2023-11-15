@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getVoltoBlocksFooter } from '@plone-collective/volto-blocks-footer';
 
-export function useVoltoBlocksFooter() {
+export function useVoltoBlocksFooter(slotId) {
   const dispatch = useDispatch();
 
   // TODO: Don't need client side re-fetch
@@ -18,5 +18,5 @@ export function useVoltoBlocksFooter() {
   const footerBlockData = blocksFooterData
     ? JSON.parse(blocksFooterData)
     : null;
-  return footerBlockData;
+  return slotId ? footerBlockData[slotId] : footerBlockData;
 }

@@ -58,3 +58,24 @@ export default (config) => {
 
   return config;
 };
+
+export function eeaVoltoSlots(config) {
+  const slotDefinitions = config.settings['volto-blocks-footer']?.slots;
+
+  if (!slotDefinitions || typeof slotDefinitions !== 'object') {
+    console.log('No slots defined');
+    return config;
+  }
+  const SlotRenderer = config.getComponent('VoltoBlocksFooterDisplay')
+    .component;
+  Object.keys(config.settings['volto-blocks-footer'].slots).forEach(
+    (slotId) => {
+      config.slots[slotId].push({
+        path: '/',
+        component: () => <SlotRenderer slot={slotId} />,
+      });
+    },
+  );
+
+  return config;
+}

@@ -1,12 +1,12 @@
 import { useVoltoBlocksFooter } from '@plone-collective/volto-blocks-footer';
 import { RenderBlocks } from '@plone/volto/components';
 
-export function FooterDisplay(props) {
-  const footerBlockData = useVoltoBlocksFooter();
+export function FooterDisplay({ slot, ...props }) {
+  const blockData = useVoltoBlocksFooter(slot);
 
-  if (!footerBlockData) {
+  if (!blockData) {
     return null;
   }
 
-  return <RenderBlocks {...props} content={footerBlockData} />;
+  return <RenderBlocks {...props} content={blockData} />;
 }
