@@ -18,5 +18,11 @@ export function useVoltoBlocksFooter(slotId) {
   const footerBlockData = blocksFooterData
     ? JSON.parse(blocksFooterData)
     : null;
+
+  if (!footerBlockData) {
+    console.error('No slotted block data found', slotId);
+    return {};
+  }
+
   return slotId ? footerBlockData[slotId] : footerBlockData;
 }
