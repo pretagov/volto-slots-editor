@@ -8,5 +8,9 @@ export function FooterDisplay({ slot, ...props }) {
     return null;
   }
 
+  if (!blockData.enabled) {
+    return null;
+  }
+
   return <RenderBlocks {...props} content={blockData} />;
 }

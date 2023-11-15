@@ -5,6 +5,7 @@ import {
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
+import { useLocation } from 'react-router';
 import { v4 as uuid } from 'uuid';
 
 import { BlocksForm, Sidebar } from '@plone/volto/components';
@@ -45,8 +46,9 @@ const messages = defineMessages({
 });
 
 function getInitialBlocksData(value) {
+  let data = value;
   // Hacky way of checking for falsey value. Empty array and empty object typecast to true.
-  if (Object.keys(value).length > 0) {
+  if (value && Object.keys(value).length > 0) {
     return value;
   }
 
@@ -54,27 +56,29 @@ function getInitialBlocksData(value) {
   const blocksLayoutFieldname = getBlocksLayoutFieldname({}) ?? 'blocks_layout';
 
   const defaultID = uuid();
-
+  data = {};
   if (
-    !value[blocksLayoutFieldname] ||
-    isEmpty(value[blocksLayoutFieldname].items)
+    !data[blocksLayoutFieldname] ||
+    isEmpty(data[blocksLayoutFieldname].items)
   ) {
-    value[blocksLayoutFieldname] = {
+    data[blocksLayoutFieldname] = {
       items: [defaultID],
     };
   }
-  if (!value[blocksFieldname] || isEmpty(value[blocksFieldname])) {
-    value[blocksFieldname] = {
+  if (!data[blocksFieldname] || isEmpty(data[blocksFieldname])) {
+    data[blocksFieldname] = {
       [defaultID]: {
         '@type': config.settings.defaultBlockType,
       },
     };
   }
 
-  return value;
+  return data;
 }
 
 export function BlockPicker({ onChange, value, slotId }) {
+  const { pathname } = useLocation();
+
   function onChangeFormBlocks(newData) {
     const newValue = {
       ...value,
@@ -104,16 +108,9 @@ export function BlockPicker({ onChange, value, slotId }) {
                 <Grid.Column width={12}>
                   <div className="menu-blocks-container">
                     <BlocksForm
-                      // metadata={metadata}
                       properties={blocksData}
-                      // direction={direction}
-                      // manage={manage}
                       selectedBlock={selectedBlock}
                       blocksConfig={config.blocksConfig}
-                      // allowedBs
-                      title={'Blocks form nested'}
-                      // stopPropagation={selectedBlock}
-                      // disableAddBlockOnEnterKey
                       onSelectBlock={(id) => {
                         setSelectedBlock(id);
                       }}
@@ -121,6 +118,7 @@ export function BlockPicker({ onChange, value, slotId }) {
                         onChangeFormBlocks(newFormData);
                       }}
                       isMainForm={false}
+                      pathname={pathname}
                     />
                   </div>
                 </Grid.Column>
