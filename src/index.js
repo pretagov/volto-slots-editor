@@ -20,6 +20,19 @@ export default (config) => {
     name: 'VoltoBlocksFooterDisplay',
     component: FooterDisplay,
   });
+  const slotDefinitions = config.settings['volto-blocks-footer']?.slots;
+  // Register all of the slots as dependent components for easier lookup later
+  if (slotDefinitions && typeof slotDefinitions === 'object') {
+    Object.keys(config.settings['volto-blocks-footer'].slots).forEach(
+      (slotId) => {
+        config.registerComponent({
+          name: 'VoltoBlocksFooterDisplay',
+          component: () => <FooterDisplay slot={slotId} />,
+          dependencies: slotId,
+        });
+      },
+    );
+  }
 
   config.addonReducers = {
     ...config.addonReducers,
@@ -66,13 +79,15 @@ export function eeaVoltoSlots(config) {
     console.log('No slots defined');
     return config;
   }
-  const SlotRenderer = config.getComponent('VoltoBlocksFooterDisplay')
-    .component;
   Object.keys(config.settings['volto-blocks-footer'].slots).forEach(
     (slotId) => {
+      const SlotRenderer = config.getComponent({
+        name: 'VoltoBlocksFooterDisplay',
+        dependencies: [slotDefinitions],
+      }).component;
       config.slots[slotId].push({
         path: '/',
-        component: () => <SlotRenderer slot={slotId} />,
+        component: () => SlotRenderer,
       });
     },
   );
