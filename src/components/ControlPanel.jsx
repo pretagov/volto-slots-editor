@@ -54,6 +54,8 @@ export function ControlPanelWidget({
     dispatch(getVoltoBlocksFooter());
   }, [dispatch]);
 
+  console.log('decodedValue', decodedValue, 'slotId', activeSlotId);
+
   return (
     <div className="menu-configuration-widget">
       <Form.Field inline id={id}>

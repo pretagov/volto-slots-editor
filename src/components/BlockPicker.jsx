@@ -4,46 +4,19 @@ import {
 } from '@plone/volto/helpers';
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
-import { defineMessages, useIntl } from 'react-intl';
 import { useLocation } from 'react-router';
 import { v4 as uuid } from 'uuid';
 
-import { BlocksForm, Sidebar } from '@plone/volto/components';
+import {
+  BlockDataForm,
+  BlocksForm,
+  Sidebar,
+  SidebarPortal,
+} from '@plone/volto/components';
 import config from '@plone/volto/registry';
 import { useMemo } from 'react';
 import { Portal } from 'react-portal';
 import { Grid, Form as UIForm } from 'semantic-ui-react';
-
-const messages = defineMessages({
-  deleteMenuPath: {
-    id: 'dropdownmenu-delete-menupath',
-    defaultMessage: 'Delete menu path',
-  },
-  deleteButton: {
-    id: 'dropdownmenu-delete-button',
-    defaultMessage: 'Delete',
-  },
-  root_path: {
-    id: 'dropdownmenu-rootpath',
-    defaultMessage: 'Root path',
-  },
-  moveMenuItemUp: {
-    id: 'dropdownmenu-move-menuitem-up',
-    defaultMessage: 'Move menu item up',
-  },
-  moveMenuItemDown: {
-    id: 'dropdownmenu-move-menuitem-down',
-    defaultMessage: 'Move menu item down',
-  },
-  emptyActiveSection: {
-    id: 'empty-active-section',
-    defaultMessage: 'Select a section',
-  },
-  emptyActiveMenuItem: {
-    id: 'dropdownmenu-emptyActiveMenuItem',
-    defaultMessage: 'Select a menu item',
-  },
-});
 
 function getInitialBlocksData(value) {
   let data = value;
@@ -127,9 +100,7 @@ export function BlockPicker({ onChange, value, slotId }) {
           </UIForm.Field>
         </Grid.Column>
       </Grid>
-      <Portal node={document.getElementById('sidebar')}>
-        <Sidebar />
-      </Portal>
+      <Sidebar />
     </>
   );
 }
