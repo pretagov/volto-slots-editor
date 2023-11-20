@@ -1,1 +1,1 @@
-export * from './useVoltoBlocksFooter';
+export * from './useVoltoSlotsEditor';

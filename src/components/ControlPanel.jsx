@@ -1,4 +1,4 @@
-import { getVoltoBlocksFooter } from '@plone-collective/volto-slots-editor';
+import { getVoltoSlotsEditorConfig } from '@plone-collective/volto-slots-editor';
 import config from '@plone/volto/registry';
 import { useEffect, useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
@@ -21,7 +21,6 @@ export function ControlPanelWidget({
   required,
   title,
   description,
-  ...rest
 }) {
   const intl = useIntl();
   const dispatch = useDispatch();
@@ -36,7 +35,7 @@ export function ControlPanelWidget({
 
   function onBlocksChange(newValue) {
     onChange(id, JSON.stringify(newValue));
-    dispatch(getVoltoBlocksFooter());
+    dispatch(getVoltoSlotsEditorConfig());
   }
   function onEnabledChange(event, { checked }) {
     const newValue = {
@@ -51,10 +50,8 @@ export function ControlPanelWidget({
   }
 
   useEffect(() => {
-    dispatch(getVoltoBlocksFooter());
+    dispatch(getVoltoSlotsEditorConfig());
   }, [dispatch]);
-
-  console.log('decodedValue', decodedValue, 'slotId', activeSlotId);
 
   return (
     <div className="menu-configuration-widget">

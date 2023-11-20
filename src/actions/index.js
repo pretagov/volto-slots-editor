@@ -1,18 +1,8 @@
-/**
- * Dropdown menu items actions.
- * @module actions/getDropdownMenuNavitems
- */
-import { GET_ADDON_FOOTER } from '@plone-collective/volto-slots-editor';
+import { GET_SLOTS_EDITOR_CONFIG } from '@plone-collective/volto-slots-editor';
 
-/**
- * Get dropdown menu items.
- * @function getDropdownMenuNavitems
- * @returns {Object} Get dropdown menu items action.
- * Es: http://localhost:8080/Plone/@dropdown-menu
- */
-export function getVoltoBlocksFooter() {
+export function getVoltoSlotsEditorConfig() {
   return {
-    type: GET_ADDON_FOOTER,
+    type: GET_SLOTS_EDITOR_CONFIG,
     request: {
       op: 'get',
       path: `/@VoltoSlotsEditor`,

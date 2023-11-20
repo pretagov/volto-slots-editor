@@ -1,8 +1,8 @@
-import { useVoltoBlocksFooter } from '@plone-collective/volto-slots-editor';
+import { useVoltoSlotsEditor } from '@plone-collective/volto-slots-editor';
 import { RenderBlocks } from '@plone/volto/components';
 
-export function FooterDisplay({ slot, ...props }) {
-  const blockData = useVoltoBlocksFooter(slot);
+export function SlotDisplay({ slot, ...props }) {
+  const blockData = useVoltoSlotsEditor(slot);
 
   if (!blockData) {
     return null;

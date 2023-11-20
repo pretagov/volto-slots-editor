@@ -1,9 +1,4 @@
-/**
- * Dropdown menu items reducer.
- * @module reducers/dropdownMenuNavItemsReducer
- */
-
-import { GET_ADDON_FOOTER } from '@plone-collective/volto-slots-editor';
+import { GET_SLOTS_EDITOR_CONFIG } from '@plone-collective/volto-slots-editor';
 
 const initialState = {
   error: null,
@@ -12,20 +7,20 @@ const initialState = {
   loadingResults: false,
 };
 
-export const voltoBlocksFooterReducer = (state = initialState, action = {}) => {
+export const voltoSlotsEditorReducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case `${GET_ADDON_FOOTER}_PENDING`:
+    case `${GET_SLOTS_EDITOR_CONFIG}_PENDING`:
       return {
         ...state,
         loadingResults: true,
       };
-    case `${GET_ADDON_FOOTER}_SUCCESS`:
+    case `${GET_SLOTS_EDITOR_CONFIG}_SUCCESS`:
       return {
         ...state,
         result: action.result,
         loadingResults: false,
       };
-    case `${GET_ADDON_FOOTER}_FAIL`:
+    case `${GET_SLOTS_EDITOR_CONFIG}_FAIL`:
       return {
         ...state,
         error: action.error,

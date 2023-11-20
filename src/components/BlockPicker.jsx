@@ -7,15 +7,9 @@ import { useState } from 'react';
 import { useLocation } from 'react-router';
 import { v4 as uuid } from 'uuid';
 
-import {
-  BlockDataForm,
-  BlocksForm,
-  Sidebar,
-  SidebarPortal,
-} from '@plone/volto/components';
+import { BlocksForm, Sidebar } from '@plone/volto/components';
 import config from '@plone/volto/registry';
 import { useMemo } from 'react';
-import { Portal } from 'react-portal';
 import { Grid, Form as UIForm } from 'semantic-ui-react';
 
 function getInitialBlocksData(value) {

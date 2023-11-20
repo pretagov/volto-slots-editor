@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getVoltoBlocksFooter } from '@plone-collective/volto-slots-editor';
+import { getVoltoSlotsEditorConfig } from '@plone-collective/volto-slots-editor';
 
-export function useVoltoBlocksFooter(slotId) {
+export function useVoltoSlotsEditor(slotId) {
   const dispatch = useDispatch();
 
   // TODO: Don't need client side re-fetch
   useEffect(() => {
-    dispatch(getVoltoBlocksFooter());
+    dispatch(getVoltoSlotsEditorConfig());
   }, [dispatch]);
 
   const blocksFooterData = useSelector(
     (state) =>
-      state.voltoBlocksFooter?.result?.volto_blocks_footer_controlpanel_data,
+      state.voltoBlocksFooter?.result?.volto_slots_editor_controlpanel_data,
   );
   const footerBlockData = blocksFooterData
     ? JSON.parse(blocksFooterData)

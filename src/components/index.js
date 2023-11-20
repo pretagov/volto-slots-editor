@@ -1,3 +1,3 @@
-export * from './ControlPanel';
 export * from './BlockPicker';
-export * from './FooterDisplay';
+export * from './ControlPanel';
+export * from './SlotDisplay';

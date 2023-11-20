@@ -1,24 +1,24 @@
-import { getVoltoBlocksFooter } from '@plone-collective/volto-slots-editor/actions';
-import { voltoBlocksFooterReducer } from '@plone-collective/volto-slots-editor/reducers';
+import { getVoltoSlotsEditorConfig } from '@plone-collective/volto-slots-editor/actions';
+import { voltoSlotsEditorReducer } from '@plone-collective/volto-slots-editor/reducers';
 
 import {
   ControlPanelWidget,
-  FooterDisplay,
+  SlotDisplay,
 } from '@plone-collective/volto-slots-editor/components';
 
-export { GET_ADDON_FOOTER } from '@plone-collective/volto-slots-editor/constants';
-export { useVoltoBlocksFooter } from '@plone-collective/volto-slots-editor/hooks';
-export { getVoltoBlocksFooter };
+export { GET_SLOTS_EDITOR_CONFIG } from '@plone-collective/volto-slots-editor/constants';
+export { useVoltoSlotsEditor } from '@plone-collective/volto-slots-editor/hooks';
+export { getVoltoSlotsEditorConfig };
 
 export default (config) => {
   config.widgets.id = {
     ...config.widgets.id,
-    volto_blocks_footer_controlpanel_data: ControlPanelWidget,
+    volto_slots_editor_controlpanel_data: ControlPanelWidget,
   };
 
   config.registerComponent({
-    name: 'VoltoBlocksFooterDisplay',
-    component: FooterDisplay,
+    name: 'VoltoBlocksSlotDisplay',
+    component: SlotDisplay,
   });
   const slotDefinitions = config.settings['volto-slots-editor']?.slots;
   // Register all of the slots as dependent components for easier lookup later
@@ -26,8 +26,8 @@ export default (config) => {
     Object.keys(config.settings['volto-slots-editor'].slots).forEach(
       (slotId) => {
         config.registerComponent({
-          name: 'VoltoBlocksFooterDisplay',
-          component: () => <FooterDisplay slot={slotId} />,
+          name: 'VoltoBlocksSlotDisplay',
+          component: () => <SlotDisplay slot={slotId} />,
           dependencies: slotId,
         });
       },
@@ -36,7 +36,7 @@ export default (config) => {
 
   config.addonReducers = {
     ...config.addonReducers,
-    voltoBlocksFooter: voltoBlocksFooterReducer,
+    voltoBlocksFooter: voltoSlotsEditorReducer,
   };
 
   config.settings.asyncPropsExtenders = [
@@ -52,7 +52,7 @@ export default (config) => {
           dispatchActions.push({
             key: 'voltoBlocksFooter',
             promise: ({ location, store: { dispatch } }) =>
-              __SERVER__ && dispatch(getVoltoBlocksFooter()),
+              __SERVER__ && dispatch(getVoltoSlotsEditorConfig()),
           });
         }
         return dispatchActions;
@@ -81,7 +81,7 @@ export function eeaVoltoSlots(config) {
   }
   Object.keys(config.settings['volto-slots-editor'].slots).forEach((slotId) => {
     const SlotRenderer = config.getComponent({
-      name: 'VoltoBlocksFooterDisplay',
+      name: 'VoltoBlocksSlotDisplay',
       dependencies: [slotDefinitions],
     }).component;
     config.slots[slotId].push({
