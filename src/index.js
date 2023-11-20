@@ -36,7 +36,7 @@ export default (config) => {
 
   config.addonReducers = {
     ...config.addonReducers,
-    voltoBlocksFooter: voltoSlotsEditorReducer,
+    slotsEditor: voltoSlotsEditorReducer,
   };
 
   config.settings.asyncPropsExtenders = [
@@ -46,11 +46,11 @@ export default (config) => {
       extend: (dispatchActions) => {
         if (
           dispatchActions.filter(
-            (asyncAction) => asyncAction.key === 'voltoBlocksFooter',
+            (asyncAction) => asyncAction.key === 'slotsEditor',
           ).length === 0
         ) {
           dispatchActions.push({
-            key: 'voltoBlocksFooter',
+            key: 'slotsEditor',
             promise: ({ location, store: { dispatch } }) =>
               __SERVER__ && dispatch(getVoltoSlotsEditorConfig()),
           });

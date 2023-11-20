@@ -12,8 +12,7 @@ export function useVoltoSlotsEditor(slotId) {
   }, [dispatch]);
 
   const blocksFooterData = useSelector(
-    (state) =>
-      state.voltoBlocksFooter?.result?.volto_slots_editor_controlpanel_data,
+    (state) => state.slotsEditor?.result?.volto_slots_editor_controlpanel_data,
   );
   const footerBlockData = blocksFooterData
     ? JSON.parse(blocksFooterData)
