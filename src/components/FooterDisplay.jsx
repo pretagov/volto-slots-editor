@@ -1,4 +1,4 @@
-import { useVoltoBlocksFooter } from '@plone-collective/volto-blocks-footer';
+import { useVoltoBlocksFooter } from '@plone-collective/volto-slots-editor';
 import { RenderBlocks } from '@plone/volto/components';
 
 export function FooterDisplay({ slot, ...props }) {

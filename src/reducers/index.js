@@ -3,7 +3,7 @@
  * @module reducers/dropdownMenuNavItemsReducer
  */
 
-import { GET_ADDON_FOOTER } from '@plone-collective/volto-blocks-footer';
+import { GET_ADDON_FOOTER } from '@plone-collective/volto-slots-editor';
 
 const initialState = {
   error: null,

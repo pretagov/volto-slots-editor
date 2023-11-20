@@ -1,7 +1,7 @@
 {
-  "name": "@plone-collective/volto-blocks-footer",
+  "name": "@plone-collective/volto-slots-editor",
   "version": "0.1.0",
-  "description": "volto-blocks-footer: Volto add-on",
+  "description": "volto-slots-editor: Volto add-on",
   "main": "src/index.js",
   "license": "MIT",
   "keywords": [

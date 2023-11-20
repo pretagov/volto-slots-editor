@@ -1,10 +1,10 @@
-import { getVoltoBlocksFooter } from '@plone-collective/volto-blocks-footer';
+import { getVoltoBlocksFooter } from '@plone-collective/volto-slots-editor';
 import config from '@plone/volto/registry';
 import { useEffect, useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 
-import { BlockPicker } from '@plone-collective/volto-blocks-footer/components';
+import { BlockPicker } from '@plone-collective/volto-slots-editor/components';
 import { Checkbox, Form, Grid, Menu, Segment } from 'semantic-ui-react';
 
 const messages = defineMessages({
@@ -26,7 +26,7 @@ export function ControlPanelWidget({
   const intl = useIntl();
   const dispatch = useDispatch();
 
-  const slots = config.settings['volto-blocks-footer'].slots ?? {};
+  const slots = config.settings['volto-slots-editor'].slots ?? {};
   const [activeSlotId, setActiveSlotId] = useState(
     typeof slots === 'object' && Object.keys(slots).length > 0
       ? Object.keys(slots)[0]

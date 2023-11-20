@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getVoltoBlocksFooter } from '@plone-collective/volto-blocks-footer';
+import { getVoltoBlocksFooter } from '@plone-collective/volto-slots-editor';
 
 export function useVoltoBlocksFooter(slotId) {
   const dispatch = useDispatch();

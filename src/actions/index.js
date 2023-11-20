@@ -2,7 +2,7 @@
  * Dropdown menu items actions.
  * @module actions/getDropdownMenuNavitems
  */
-import { GET_ADDON_FOOTER } from '@plone-collective/volto-blocks-footer';
+import { GET_ADDON_FOOTER } from '@plone-collective/volto-slots-editor';
 
 /**
  * Get dropdown menu items.
@@ -15,7 +15,7 @@ export function getVoltoBlocksFooter() {
     type: GET_ADDON_FOOTER,
     request: {
       op: 'get',
-      path: `/@blocksfooter_settings`,
+      path: `/@VoltoSlotsEditor`,
     },
   };
 }
