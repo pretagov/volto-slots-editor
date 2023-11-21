@@ -10,6 +10,7 @@ import { v4 as uuid } from 'uuid';
 import { BlocksForm, Sidebar } from '@plone/volto/components';
 import config from '@plone/volto/registry';
 import { useMemo } from 'react';
+import { Portal } from 'react-portal';
 import { Grid, Form as UIForm } from 'semantic-ui-react';
 
 function getInitialBlocksData(value) {
@@ -61,9 +62,7 @@ export function BlockPicker({ onChange, value, slotId }) {
     return getInitialBlocksData(value[slotId]);
   }, [value, slotId]);
 
-  const [selectedBlock, setSelectedBlock] = useState(
-    blocksData.block_layout?.items?.[0],
-  );
+  const [selectedBlock, setSelectedBlock] = useState(null);
 
   return (
     <>
@@ -94,7 +93,9 @@ export function BlockPicker({ onChange, value, slotId }) {
           </UIForm.Field>
         </Grid.Column>
       </Grid>
-      <Sidebar />
+      <Portal node={document.getElementById('sidebar')}>
+        <Sidebar />
+      </Portal>
     </>
   );
 }
