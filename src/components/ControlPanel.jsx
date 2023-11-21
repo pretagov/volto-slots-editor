@@ -14,6 +14,13 @@ const messages = defineMessages({
   },
 });
 
+function isSlotActive({ value, slotId }) {
+  if (!slotId || !value) {
+    return false;
+  }
+  return value[slotId]?.enabled === true;
+}
+
 export function ControlPanelWidget({
   value,
   id,
@@ -34,6 +41,10 @@ export function ControlPanelWidget({
   const decodedValue = typeof value === 'object' ? value : JSON.parse(value);
 
   function onBlocksChange(newValue) {
+    newValue[activeSlotId].enabled = isSlotActive({
+      value: decodedValue,
+      slotId: activeSlotId,
+    });
     onChange(id, JSON.stringify(newValue));
     dispatch(getVoltoSlotsEditorConfig());
   }
@@ -82,7 +93,10 @@ export function ControlPanelWidget({
                       <Segment attached>
                         <Checkbox
                           label="Enabled"
-                          checked={decodedValue[activeSlotId]?.enabled === true}
+                          checked={isSlotActive({
+                            value: decodedValue,
+                            slotId: activeSlotId,
+                          })}
                           onChange={onEnabledChange}
                         />
                       </Segment>
