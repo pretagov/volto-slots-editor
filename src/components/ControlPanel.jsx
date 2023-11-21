@@ -1,8 +1,9 @@
 import { getVoltoSlotsEditorConfig } from '@plone-collective/volto-slots-editor';
+import { usePrevious } from '@plone/volto/helpers';
 import config from '@plone/volto/registry';
 import { useEffect, useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { BlockPicker } from '@plone-collective/volto-slots-editor/components';
 import { Checkbox, Form, Grid, Menu, Segment } from 'semantic-ui-react';
@@ -21,6 +22,15 @@ function isSlotActive({ value, slotId }) {
   return value[slotId]?.enabled === true;
 }
 
+function useControlPanelSubmission() {
+  const { loading, loaded } = useSelector(
+    (state) => state.controlpanels.update,
+  );
+  const previous = usePrevious({ loading, loaded });
+
+  return previous?.loading === false && loading === true;
+}
+
 export function ControlPanelWidget({
   value,
   id,
@@ -31,6 +41,7 @@ export function ControlPanelWidget({
 }) {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const controlPanelSubmission = useControlPanelSubmission();
 
   const slots = config.settings['volto-slots-editor'].slots ?? {};
   const [activeSlotId, setActiveSlotId] = useState(
@@ -46,7 +57,6 @@ export function ControlPanelWidget({
       slotId: activeSlotId,
     });
     onChange(id, JSON.stringify(newValue));
-    dispatch(getVoltoSlotsEditorConfig());
   }
   function onEnabledChange(event, { checked }) {
     const newValue = {
@@ -60,9 +70,15 @@ export function ControlPanelWidget({
     onChange(id, JSON.stringify(newValue));
   }
 
+  // Probably a smart way of doing it on initial load AND on all submissions in a single event, but what's one more network request
   useEffect(() => {
     dispatch(getVoltoSlotsEditorConfig());
   }, [dispatch]);
+  useEffect(() => {
+    if (useControlPanelSubmission) {
+      dispatch(getVoltoSlotsEditorConfig());
+    }
+  }, [dispatch, controlPanelSubmission]);
 
   return (
     <div className="menu-configuration-widget">
