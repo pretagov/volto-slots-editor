@@ -19,7 +19,7 @@ export function useVoltoSlotsEditor(slotId) {
   }, [blocksFooterData]);
 
   if (!footerBlockData || Object.keys(footerBlockData) < 1) {
-    console.error('No slotted block data found for', slotId);
+    // console.error('No slotted block data found for', slotId);
     return null;
   }
 
