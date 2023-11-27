@@ -31,14 +31,7 @@ function useControlPanelSubmission() {
   return previous?.loading === false && loading === true;
 }
 
-export function ControlPanelWidget({
-  value,
-  id,
-  onChange,
-  required,
-  title,
-  description,
-}) {
+export function ControlPanelWidget({ value, id, onChange, description }) {
   const intl = useIntl();
   const dispatch = useDispatch();
   const controlPanelSubmission = useControlPanelSubmission();
@@ -79,6 +72,7 @@ export function ControlPanelWidget({
       dispatch(getVoltoSlotsEditorConfig());
     }
   }, [dispatch, controlPanelSubmission]);
+  const activeSlotDescription = slots[activeSlotId]?.description;
 
   return (
     <div className="menu-configuration-widget">
@@ -106,6 +100,11 @@ export function ControlPanelWidget({
                 <>
                   {activeSlotId ? (
                     <>
+                      {activeSlotDescription ? (
+                        <p style={{ whiteSpace: 'pre-line' }}>
+                          {activeSlotDescription}
+                        </p>
+                      ) : null}
                       <Segment attached>
                         <Checkbox
                           label="Enabled"

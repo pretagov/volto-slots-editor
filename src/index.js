@@ -65,6 +65,7 @@ export default (config) => {
       // e.g.
       // footer: {
       //   title: 'Footer',
+      //   description: 'This slot will display in the footer',
       // },
     },
   };
