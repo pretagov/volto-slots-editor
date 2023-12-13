@@ -11,9 +11,11 @@
     "react"
   ],
   "scripts": {
-    "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon"
+    "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon",
+    "release": "npx release-it"
   },
   "devDependencies": {
-    "@plone/scripts": "*"
+    "@plone/scripts": "*",
+    "release-it": "17.0.1"
   }
 }
