@@ -63,6 +63,9 @@ export function BlockPicker({ onChange, value, slotId }) {
 
   const [selectedBlock, setSelectedBlock] = useState(null);
 
+  const allowedBlocks = config.settings['volto-slots-editor'].allowedBlocks ?? [];
+  const showRestricted = config.settings['volto-slots-editor'].showRestricted ?? false;
+
   return (
     <>
       <Grid>
@@ -73,6 +76,8 @@ export function BlockPicker({ onChange, value, slotId }) {
                 <Grid.Column width={12}>
                   <div className="menu-blocks-container">
                     <BlocksForm
+                      allowedBlocks={allowedBlocks}
+                      showRestricted={showRestricted}
                       properties={blocksData}
                       selectedBlock={selectedBlock}
                       blocksConfig={config.blocksConfig}
