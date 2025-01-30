@@ -49,7 +49,7 @@ export function ControlPanelWidget({ value, id, onChange, description }) {
       value: decodedValue,
       slotId: activeSlotId,
     });
-    onChange(id, JSON.stringify(newValue));
+    onChange(id, newValue);
   }
   function onEnabledChange(event, { checked }) {
     const newValue = {
@@ -60,7 +60,7 @@ export function ControlPanelWidget({ value, id, onChange, description }) {
       },
     };
 
-    onChange(id, JSON.stringify(newValue));
+    onChange(id, newValue);
   }
 
   // Probably a smart way of doing it on initial load AND on all submissions in a single event, but what's one more network request
