@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getVoltoSlotsEditorConfig } from '@plone-collective/volto-slots-editor';
@@ -11,17 +11,14 @@ export function useVoltoSlotsEditor(slotId) {
     dispatch(getVoltoSlotsEditorConfig());
   }, [dispatch]);
 
-  const blocksFooterData = useSelector(
+  const blocksData = useSelector(
     (state) => state.slotsEditor?.result?.volto_slots_editor_controlpanel_data,
   );
-  const footerBlockData = useMemo(() => {
-    return blocksFooterData ? JSON.parse(blocksFooterData) : null;
-  }, [blocksFooterData]);
 
-  if (!footerBlockData || Object.keys(footerBlockData) < 1) {
+  if (!blocksData || Object.keys(blocksData) < 1) {
     // console.error('No slotted block data found for', slotId);
     return null;
   }
 
-  return slotId ? footerBlockData[slotId] : footerBlockData;
+  return slotId ? blocksData[slotId] : blocksData;
 }

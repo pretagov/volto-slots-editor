@@ -10,7 +10,7 @@ export { GET_SLOTS_EDITOR_CONFIG } from '@plone-collective/volto-slots-editor/co
 export { useVoltoSlotsEditor } from '@plone-collective/volto-slots-editor/hooks';
 export { getVoltoSlotsEditorConfig };
 
-export default (config) => {
+export default function updateConfig(config) {
   config.widgets.id = {
     ...config.widgets.id,
     volto_slots_editor_controlpanel_data: ControlPanelWidget,
