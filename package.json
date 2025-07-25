@@ -16,6 +16,6 @@
   },
   "devDependencies": {
     "@plone/scripts": "*",
-    "release-it": "17.0.1"
+    "release-it": "18.1.2"
   }
 }
