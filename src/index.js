@@ -1,13 +1,10 @@
-import { getVoltoSlotsEditorConfig } from '@plone-collective/volto-slots-editor/actions';
-import { voltoSlotsEditorReducer } from '@plone-collective/volto-slots-editor/reducers';
+import { getVoltoSlotsEditorConfig } from "volto-slots-editor/actions";
+import { voltoSlotsEditorReducer } from "volto-slots-editor/reducers";
 
-import {
-  ControlPanelWidget,
-  SlotDisplay,
-} from '@plone-collective/volto-slots-editor/components';
+import { ControlPanelWidget, SlotDisplay } from "volto-slots-editor/components";
 
-export { GET_SLOTS_EDITOR_CONFIG } from '@plone-collective/volto-slots-editor/constants';
-export { useVoltoSlotsEditor } from '@plone-collective/volto-slots-editor/hooks';
+export { GET_SLOTS_EDITOR_CONFIG } from "volto-slots-editor/constants";
+export { useVoltoSlotsEditor } from "volto-slots-editor/hooks";
 export { getVoltoSlotsEditorConfig };
 
 export default function updateConfig(config) {
@@ -17,21 +14,19 @@ export default function updateConfig(config) {
   };
 
   config.registerComponent({
-    name: 'VoltoBlocksSlotDisplay',
+    name: "VoltoBlocksSlotDisplay",
     component: SlotDisplay,
   });
-  const slotDefinitions = config.settings['volto-slots-editor']?.slots;
+  const slotDefinitions = config.settings["volto-slots-editor"]?.slots;
   // Register all of the slots as dependent components for easier lookup later
-  if (slotDefinitions && typeof slotDefinitions === 'object') {
-    Object.keys(config.settings['volto-slots-editor'].slots).forEach(
-      (slotId) => {
-        config.registerComponent({
-          name: 'VoltoBlocksSlotDisplay',
-          component: () => <SlotDisplay slot={slotId} />,
-          dependencies: slotId,
-        });
-      },
-    );
+  if (slotDefinitions && typeof slotDefinitions === "object") {
+    Object.keys(config.settings["volto-slots-editor"].slots).forEach((slotId) => {
+      config.registerComponent({
+        name: "VoltoBlocksSlotDisplay",
+        component: () => <SlotDisplay slot={slotId} />,
+        dependencies: slotId,
+      });
+    });
   }
 
   config.addonReducers = {
@@ -42,17 +37,12 @@ export default function updateConfig(config) {
   config.settings.asyncPropsExtenders = [
     ...(config.settings.asyncPropsExtenders ?? []),
     {
-      path: '/',
+      path: "/",
       extend: (dispatchActions) => {
-        if (
-          dispatchActions.filter(
-            (asyncAction) => asyncAction.key === 'slotsEditor',
-          ).length === 0
-        ) {
+        if (dispatchActions.filter((asyncAction) => asyncAction.key === "slotsEditor").length === 0) {
           dispatchActions.push({
-            key: 'slotsEditor',
-            promise: ({ location, store: { dispatch } }) =>
-              __SERVER__ && dispatch(getVoltoSlotsEditorConfig()),
+            key: "slotsEditor",
+            promise: ({ location, store: { dispatch } }) => __SERVER__ && dispatch(getVoltoSlotsEditorConfig()),
           });
         }
         return dispatchActions;
@@ -60,7 +50,7 @@ export default function updateConfig(config) {
     },
   ];
 
-  config.settings['volto-slots-editor'] = {
+  config.settings["volto-slots-editor"] = {
     slots: {
       // e.g.
       // footer: {
@@ -71,22 +61,22 @@ export default function updateConfig(config) {
   };
 
   return config;
-};
+}
 
 export function eeaVoltoSlots(config) {
-  const slotDefinitions = config.settings['volto-slots-editor']?.slots;
+  const slotDefinitions = config.settings["volto-slots-editor"]?.slots;
 
-  if (!slotDefinitions || typeof slotDefinitions !== 'object') {
-    console.log('No slots defined');
+  if (!slotDefinitions || typeof slotDefinitions !== "object") {
+    console.log("No slots defined");
     return config;
   }
-  Object.keys(config.settings['volto-slots-editor'].slots).forEach((slotId) => {
+  Object.keys(config.settings["volto-slots-editor"].slots).forEach((slotId) => {
     const SlotRenderer = config.getComponent({
-      name: 'VoltoBlocksSlotDisplay',
+      name: "VoltoBlocksSlotDisplay",
       dependencies: [slotDefinitions],
     }).component;
     config.slots[slotId].push({
-      path: '/',
+      path: "/",
       component: () => SlotRenderer,
     });
   });
