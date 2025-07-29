@@ -17,5 +17,8 @@
   "devDependencies": {
     "@plone/scripts": "*",
     "release-it": "18.1.2"
+  },
+  "dependencies": {
+    "react-portal": "^4.2.1"
   }
 }
