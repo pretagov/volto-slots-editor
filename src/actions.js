@@ -1,4 +1,4 @@
-import { GET_SLOTS_EDITOR_CONFIG } from "volto-slots-editor";
+import { GET_SLOTS_EDITOR_CONFIG } from "volto-slots-editor/constants";
 
 export function getVoltoSlotsEditorConfig() {
   return {

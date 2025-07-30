@@ -1,7 +1,7 @@
-import { useVoltoSlotsEditor } from "volto-slots-editor";
 import { RenderBlocks } from "@plone/volto/components";
 import { getBaseUrl } from "@plone/volto/helpers";
 import { useLocation } from "react-router";
+import { useVoltoSlotsEditor } from "volto-slots-editor/hooks";
 
 export function SlotDisplay({ slot, ...props }) {
   const blockData = useVoltoSlotsEditor(slot);

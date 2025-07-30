@@ -3,7 +3,7 @@ import config from "@plone/volto/registry";
 import { useEffect, useState } from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
-import { getVoltoSlotsEditorConfig } from "volto-slots-editor";
+import { getVoltoSlotsEditorConfig } from "volto-slots-editor/actions";
 
 import { Checkbox, Form, Grid, Menu, Segment } from "semantic-ui-react";
 import { BlockPicker } from "volto-slots-editor/components";
