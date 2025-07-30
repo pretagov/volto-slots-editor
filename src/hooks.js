@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getVoltoSlotsEditorConfig } from "volto-slots-editor";
+import { getVoltoSlotsEditorConfig } from "volto-slots-editor/actions";
 
 export function useVoltoSlotsEditor(slotId) {
   const dispatch = useDispatch();

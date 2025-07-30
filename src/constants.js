@@ -1,0 +1,2 @@
+// ActionTypes
+export const GET_SLOTS_EDITOR_CONFIG = "GET_SLOTS_EDITOR_CONFIG";
