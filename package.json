@@ -1,5 +1,5 @@
 {
-  "name": "@plone-collective/volto-slots-editor",
+  "name": "volto-slots-editor",
   "version": "0.1.0",
   "description": "volto-slots-editor: Volto add-on",
   "main": "src/index.js",
@@ -16,6 +16,9 @@
   },
   "devDependencies": {
     "@plone/scripts": "*",
-    "release-it": "17.0.1"
+    "release-it": "18.1.2"
+  },
+  "dependencies": {
+    "react-portal": "^4.2.1"
   }
 }

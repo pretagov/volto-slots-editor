@@ -1,17 +1,17 @@
-import { getVoltoSlotsEditorConfig } from '@plone-collective/volto-slots-editor';
-import { usePrevious } from '@plone/volto/helpers';
-import config from '@plone/volto/registry';
-import { useEffect, useState } from 'react';
-import { defineMessages, useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
+import { usePrevious } from "@plone/volto/helpers";
+import config from "@plone/volto/registry";
+import { useEffect, useState } from "react";
+import { defineMessages, useIntl } from "react-intl";
+import { useDispatch, useSelector } from "react-redux";
+import { getVoltoSlotsEditorConfig } from "volto-slots-editor";
 
-import { BlockPicker } from '@plone-collective/volto-slots-editor/components';
-import { Checkbox, Form, Grid, Menu, Segment } from 'semantic-ui-react';
+import { Checkbox, Form, Grid, Menu, Segment } from "semantic-ui-react";
+import { BlockPicker } from "volto-slots-editor/components";
 
 const messages = defineMessages({
   selectASlot: {
-    id: 'selectASlot',
-    defaultMessage: 'Select a slot',
+    id: "selectASlot",
+    defaultMessage: "Select a slot",
   },
 });
 
@@ -23,9 +23,7 @@ function isSlotActive({ value, slotId }) {
 }
 
 function useControlPanelSubmission() {
-  const { loading, loaded } = useSelector(
-    (state) => state.controlpanels.update,
-  );
+  const { loading, loaded } = useSelector((state) => state.controlpanels.update);
   const previous = usePrevious({ loading, loaded });
 
   return previous?.loading === false && loading === true;
@@ -36,13 +34,9 @@ export function ControlPanelWidget({ value, id, onChange, description }) {
   const dispatch = useDispatch();
   const controlPanelSubmission = useControlPanelSubmission();
 
-  const slots = config.settings['volto-slots-editor'].slots ?? {};
-  const [activeSlotId, setActiveSlotId] = useState(
-    typeof slots === 'object' && Object.keys(slots).length > 0
-      ? Object.keys(slots)[0]
-      : '',
-  );
-  const decodedValue = typeof value === 'object' ? value : JSON.parse(value);
+  const slots = config.settings["volto-slots-editor"].slots ?? {};
+  const [activeSlotId, setActiveSlotId] = useState(typeof slots === "object" && Object.keys(slots).length > 0 ? Object.keys(slots)[0] : "");
+  const decodedValue = typeof value === "object" ? value : JSON.parse(value);
 
   function onBlocksChange(newValue) {
     newValue[activeSlotId].enabled = isSlotActive({
@@ -100,11 +94,7 @@ export function ControlPanelWidget({ value, id, onChange, description }) {
                 <>
                   {activeSlotId ? (
                     <>
-                      {activeSlotDescription ? (
-                        <p style={{ whiteSpace: 'pre-line' }}>
-                          {activeSlotDescription}
-                        </p>
-                      ) : null}
+                      {activeSlotDescription ? <p style={{ whiteSpace: "pre-line" }}>{activeSlotDescription}</p> : null}
                       <Segment attached>
                         <Checkbox
                           label="Enabled"
@@ -116,11 +106,7 @@ export function ControlPanelWidget({ value, id, onChange, description }) {
                         />
                       </Segment>
                       <Segment vertical>
-                        <BlockPicker
-                          onChange={onBlocksChange}
-                          value={decodedValue}
-                          slotId={activeSlotId}
-                        />
+                        <BlockPicker onChange={onBlocksChange} value={decodedValue} slotId={activeSlotId} />
                       </Segment>
                     </>
                   ) : (

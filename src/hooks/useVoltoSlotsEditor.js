@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { getVoltoSlotsEditorConfig } from '@plone-collective/volto-slots-editor';
+import { getVoltoSlotsEditorConfig } from "volto-slots-editor";
 
 export function useVoltoSlotsEditor(slotId) {
   const dispatch = useDispatch();
@@ -11,9 +11,7 @@ export function useVoltoSlotsEditor(slotId) {
     dispatch(getVoltoSlotsEditorConfig());
   }, [dispatch]);
 
-  const blocksData = useSelector(
-    (state) => state.slotsEditor?.result?.volto_slots_editor_controlpanel_data,
-  );
+  const blocksData = useSelector((state) => state.slotsEditor?.result?.volto_slots_editor_controlpanel_data);
 
   if (!blocksData || Object.keys(blocksData) < 1) {
     // console.error('No slotted block data found for', slotId);

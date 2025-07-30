@@ -1,10 +1,10 @@
-import { GET_SLOTS_EDITOR_CONFIG } from '@plone-collective/volto-slots-editor';
+import { GET_SLOTS_EDITOR_CONFIG } from "volto-slots-editor";
 
 export function getVoltoSlotsEditorConfig() {
   return {
     type: GET_SLOTS_EDITOR_CONFIG,
     request: {
-      op: 'get',
+      op: "get",
       path: `/@VoltoSlotsEditor`,
     },
   };

@@ -22,7 +22,7 @@ DOCKER_IMAGE5=plone/plone-backend:5.2.9
 KGS5=plone.restapi==8.32.6 plone.volto==4.0.0 plone.rest==2.0.0
 
 DIR=$(shell basename $$(pwd))
-ADDON ?= "@plone-collective/volto-slots-editor"
+ADDON ?= "volto-slots-editor"
 
 # Recipe snippets for reuse
 
