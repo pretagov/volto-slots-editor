@@ -18,7 +18,9 @@
     "@plone/scripts": "*",
     "release-it": "18.1.2"
   },
-  "dependencies": {
-    "react-portal": "^4.2.1"
+  "peerDependencies": {
+    "@plone/scripts": "*",
+    "react-portal": "^4.2.1",
+    "release-it": "18.1.2"
   }
 }
