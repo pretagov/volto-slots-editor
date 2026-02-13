@@ -11,7 +11,7 @@ export function useVoltoSlotsEditor(slotId) {
     dispatch(getVoltoSlotsEditorConfig());
   }, [dispatch]);
 
-  const blocksData = useSelector((state) => state.slotsEditor?.result?.volto_slots_editor_controlpanel_data);
+  const blocksData = useSelector((state) => state.slotsEditor?.result);
 
   if (!blocksData || Object.keys(blocksData) < 1) {
     // console.error('No slotted block data found for', slotId);
