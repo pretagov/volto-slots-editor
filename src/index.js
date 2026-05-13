@@ -1,10 +1,10 @@
-import { getVoltoSlotsEditorConfig } from "volto-slots-editor/actions";
-import { voltoSlotsEditorReducer } from "volto-slots-editor/reducers";
+import { getVoltoSlotsEditorConfig } from 'volto-slots-editor/actions';
+import { voltoSlotsEditorReducer } from 'volto-slots-editor/reducers';
 
-import { ControlPanelWidget, SlotDisplay } from "volto-slots-editor/components";
+import { ControlPanelWidget, SlotDisplay } from 'volto-slots-editor/components';
 
-export { GET_SLOTS_EDITOR_CONFIG } from "volto-slots-editor/constants";
-export { useVoltoSlotsEditor } from "volto-slots-editor/hooks";
+export { GET_SLOTS_EDITOR_CONFIG } from 'volto-slots-editor/constants';
+export { useVoltoSlotsEditor } from 'volto-slots-editor/hooks';
 export { getVoltoSlotsEditorConfig };
 
 export default function updateConfig(config) {
@@ -14,19 +14,21 @@ export default function updateConfig(config) {
   };
 
   config.registerComponent({
-    name: "VoltoBlocksSlotDisplay",
+    name: 'VoltoBlocksSlotDisplay',
     component: SlotDisplay,
   });
-  const slotDefinitions = config.settings["volto-slots-editor"]?.slots;
+  const slotDefinitions = config.settings['volto-slots-editor']?.slots;
   // Register all of the slots as dependent components for easier lookup later
-  if (slotDefinitions && typeof slotDefinitions === "object") {
-    Object.keys(config.settings["volto-slots-editor"].slots).forEach((slotId) => {
-      config.registerComponent({
-        name: "VoltoBlocksSlotDisplay",
-        component: () => <SlotDisplay slot={slotId} />,
-        dependencies: slotId,
-      });
-    });
+  if (slotDefinitions && typeof slotDefinitions === 'object') {
+    Object.keys(config.settings['volto-slots-editor'].slots).forEach(
+      (slotId) => {
+        config.registerComponent({
+          name: 'VoltoBlocksSlotDisplay',
+          component: () => <SlotDisplay slot={slotId} />,
+          dependencies: slotId,
+        });
+      },
+    );
   }
 
   config.addonReducers = {
@@ -34,23 +36,36 @@ export default function updateConfig(config) {
     slotsEditor: voltoSlotsEditorReducer,
   };
 
-  config.settings.asyncPropsExtenders = [
-    ...(config.settings.asyncPropsExtenders ?? []),
+  config.settings.apiExpanders = [
+    ...(config.settings.apiExpanders ?? []),
     {
-      path: "/",
-      extend: (dispatchActions) => {
-        if (dispatchActions.filter((asyncAction) => asyncAction.key === "slotsEditor").length === 0) {
-          dispatchActions.push({
-            key: "slotsEditor",
-            promise: ({ location, store: { dispatch } }) => __SERVER__ && dispatch(getVoltoSlotsEditorConfig()),
-          });
-        }
-        return dispatchActions;
-      },
+      match: '',
+      GET_CONTENT: ['VoltoSlotsEditor'],
     },
   ];
 
-  config.settings["volto-slots-editor"] = {
+  // Not currently used on the public site: slot data is delivered via the
+  // `VoltoSlotsEditor` content expander and `useVoltoSlotsEditor` reads it
+  // from `state.content.data['@components']`. Kept (commented) in case we
+  // need a client-side fetch path again. The ControlPanel still uses the
+  // action/reducer directly for admin editing.
+  // config.settings.asyncPropsExtenders = [
+  //   ...(config.settings.asyncPropsExtenders ?? []),
+  //   {
+  //     path: "/",
+  //     extend: (dispatchActions) => {
+  //       if (dispatchActions.filter((asyncAction) => asyncAction.key === "slotsEditor").length === 0) {
+  //         dispatchActions.push({
+  //           key: "slotsEditor",
+  //           promise: ({ location, store: { dispatch } }) => __SERVER__ && dispatch(getVoltoSlotsEditorConfig()),
+  //         });
+  //       }
+  //       return dispatchActions;
+  //     },
+  //   },
+  // ];
+
+  config.settings['volto-slots-editor'] = {
     slots: {
       // e.g.
       // footer: {
@@ -64,19 +79,19 @@ export default function updateConfig(config) {
 }
 
 export function eeaVoltoSlots(config) {
-  const slotDefinitions = config.settings["volto-slots-editor"]?.slots;
+  const slotDefinitions = config.settings['volto-slots-editor']?.slots;
 
-  if (!slotDefinitions || typeof slotDefinitions !== "object") {
-    console.log("No slots defined");
+  if (!slotDefinitions || typeof slotDefinitions !== 'object') {
+    console.log('No slots defined');
     return config;
   }
-  Object.keys(config.settings["volto-slots-editor"].slots).forEach((slotId) => {
+  Object.keys(config.settings['volto-slots-editor'].slots).forEach((slotId) => {
     const SlotRenderer = config.getComponent({
-      name: "VoltoBlocksSlotDisplay",
+      name: 'VoltoBlocksSlotDisplay',
       dependencies: [slotDefinitions],
     }).component;
     config.slots[slotId].push({
-      path: "/",
+      path: '/',
       component: () => SlotRenderer,
     });
   });
