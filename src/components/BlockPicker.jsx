@@ -13,34 +13,30 @@ import { Portal } from 'react-portal';
 import { Grid, Form as UIForm } from 'semantic-ui-react';
 
 function getInitialBlocksData(value) {
-  let data = value;
-  // Hacky way of checking for falsey value. Empty array and empty object typecast to true.
-  if (value && Object.keys(value).length > 0) {
-    return value;
-  }
-
   const blocksFieldname = getBlocksFieldname({}) ?? 'blocks';
   const blocksLayoutFieldname = getBlocksLayoutFieldname({}) ?? 'blocks_layout';
 
-  const defaultID = uuid();
-  data = {};
+  // A slot that has only been enabled or disabled has no blocks yet (just
+  // `{enabled: true}`), so it needs the same default block as an unset slot.
   if (
-    !data[blocksLayoutFieldname] ||
-    isEmpty(data[blocksLayoutFieldname].items)
+    !isEmpty(value?.[blocksLayoutFieldname]?.items) &&
+    !isEmpty(value?.[blocksFieldname])
   ) {
-    data[blocksLayoutFieldname] = {
-      items: [defaultID],
-    };
+    return value;
   }
-  if (!data[blocksFieldname] || isEmpty(data[blocksFieldname])) {
-    data[blocksFieldname] = {
+
+  const defaultID = uuid();
+  return {
+    ...value,
+    [blocksLayoutFieldname]: {
+      items: [defaultID],
+    },
+    [blocksFieldname]: {
       [defaultID]: {
         '@type': config.settings.defaultBlockType,
       },
-    };
-  }
-
-  return data;
+    },
+  };
 }
 
 export function BlockPicker({ onChange, value, slotId }) {
